@@ -37,3 +37,4 @@ runQueries.forEach((query) => {
     console.table(result);
   });
 });
+connection.end();

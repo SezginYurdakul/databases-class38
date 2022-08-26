@@ -37,8 +37,3 @@ Some exercise that cover the topics of this week:
 5. For analytics, we want to have the amount of tasks done per user per month.
    1. Create a separate query with average amount of tasks done per month per user.
       For example returning: Tomas finishes 4 tasks per month on average.
-   
-   
-     
-    
-

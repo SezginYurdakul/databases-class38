@@ -13,13 +13,15 @@ const query1 = `CREATE TABLE research_Papers (
   paper_title varchar(100) NOT NULL,
   conference INT NOT NULL,
   publish_date DATE NOT NULL,
-  author_no INT NOT NULL,
-  PRIMARY KEY (paper_id),
-  FOREIGN KEY (author_no) REFERENCES authors(author_no)
+  PRIMARY KEY (paper_id)
 );`;
 
-const query2 = `ALTER TABLE authors
-ADD COLUMN mentor  VARCHAR(50) AFTER author_name`;
+const query2 = `CREATE TABLE junction_authors_research_Papers (
+  paper_id INT NOT NULL,
+  author_no INT NOT NULL,
+  FOREIGN KEY (author_no) REFERENCES authors(author_no),
+  FOREIGN KEY (paper_id) REFERENCES research_Papers(paper_id)
+);`;
 
 function queryRunner(query) {
   connection.query(query, function (error) {

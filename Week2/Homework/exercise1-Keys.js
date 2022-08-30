@@ -14,12 +14,13 @@ const query1 = `CREATE TABLE authors (
   university varchar(100) NOT NULL,
   date_of_birth DATE NOT NULL,
   h_index INT NOT NULL,
-  gender VARCHAR(10),
+  gender VARCHAR(10) NOT NULL,
   PRIMARY KEY (author_no)
 );`;
 
 const query2 = `ALTER TABLE authors
-ADD COLUMN mentor  VARCHAR(50) AFTER author_name`;
+ADD COLUMN mentor  INT AFTER author_name,
+ADD FOREIGN KEY (mentor) REFERENCES authors(author_no);`;
 
 function queryRunner(query) {
   connection.query(query, function (error) {

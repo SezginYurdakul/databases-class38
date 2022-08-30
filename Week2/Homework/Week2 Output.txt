@@ -1,0 +1,217 @@
+Exercise 3 Output :
+1-Write a query that prints names of all authors and their corresponding mentors.
+SELECT 
+    authors.author_no,
+    authors.author_name,
+    Mentor.author_name AS "Mentor Name"
+  FROM authors Mentor
+  INNER JOIN authors
+    ON authors.mentor = Mentor.author_no;
+┌─────────┬───────────┬─────────────┬─────────────┐
+│ (index) │ author_no │ author_name │ Mentor Name │
+├─────────┼───────────┼─────────────┼─────────────┤
+│    0    │     1     │ 'AUTHOR_1'  │ 'AUTHOR_3'  │
+│    1    │     2     │ 'AUTHOR_2'  │ 'AUTHOR_1'  │
+│    2    │     3     │ 'AUTHOR_3'  │ 'AUTHOR_1'  │
+│    3    │     4     │ 'AUTHOR_4'  │ 'AUTHOR_2'  │
+│    4    │     5     │ 'AUTHOR_5'  │ 'AUTHOR_3'  │
+│    5    │     6     │ 'AUTHOR_6'  │ 'AUTHOR_1'  │
+│    6    │     7     │ 'AUTHOR_7'  │ 'AUTHOR_4'  │
+│    7    │     8     │ 'AUTHOR_8'  │ 'AUTHOR_4'  │
+│    8    │     9     │ 'AUTHOR_9'  │ 'AUTHOR_2'  │
+│    9    │    10     │ 'AUTHOR_10' │ 'AUTHOR_3'  │
+│   10    │    11     │ 'AUTHOR_11' │ 'AUTHOR_4'  │
+│   11    │    12     │ 'AUTHOR_12' │ 'AUTHOR_1'  │
+│   12    │    13     │ 'AUTHOR_13' │ 'AUTHOR_5'  │
+│   13    │    14     │ 'AUTHOR_14' │ 'AUTHOR_5'  │
+│   14    │    15     │ 'AUTHOR_15' │ 'AUTHOR_5'  │
+└─────────┴───────────┴─────────────┴─────────────┘
+2-Write a query that prints all columns of authors and their published paper_title.
+                 If there is an author without any research_Papers, print the information of that author too.
+SELECT
+    authors.author_no,
+    authors.author_name,
+    authors.mentor,
+    authors.university,
+    authors.date_of_birth,
+    authors.h_index,
+    authors.gender,
+    research_papers.paper_title
+  FROM junction_authors_research_papers
+  RIGHT OUTER JOIN authors
+    ON junction_authors_research_papers.author_no = authors.author_no
+  LEFT OUTER JOIN research_papers
+    ON junction_authors_research_papers.paper_id = research_papers.paper_id;
+┌─────────┬───────────┬─────────────┬────────┬────────────────┬──────────────────────────┬─────────┬──────────┬──────────────────┐
+│ (index) │ author_no │ author_name │ mentor │   university   │      date_of_birth       │ h_index │  gender  │   paper_title    │
+├─────────┼───────────┼─────────────┼────────┼────────────────┼──────────────────────────┼─────────┼──────────┼──────────────────┤
+│    0    │     1     │ 'AUTHOR_1'  │   3    │ 'UNIVERSITY_1' │ 1969-12-31T23:00:00.000Z │   25    │  'male'  │ 'Paper_Title_2'  │
+│    1    │     1     │ 'AUTHOR_1'  │   3    │ 'UNIVERSITY_1' │ 1969-12-31T23:00:00.000Z │   25    │  'male'  │ 'Paper_Title_24' │
+│    2    │     2     │ 'AUTHOR_2'  │   1    │ 'UNIVERSITY_2' │ 1970-01-01T23:00:00.000Z │   40    │ 'female' │ 'Paper_Title_14' │
+│    3    │     2     │ 'AUTHOR_2'  │   1    │ 'UNIVERSITY_2' │ 1970-01-01T23:00:00.000Z │   40    │ 'female' │ 'Paper_Title_18' │
+│    4    │     2     │ 'AUTHOR_2'  │   1    │ 'UNIVERSITY_2' │ 1970-01-01T23:00:00.000Z │   40    │ 'female' │ 'Paper_Title_19' │
+│    5    │     2     │ 'AUTHOR_2'  │   1    │ 'UNIVERSITY_2' │ 1970-01-01T23:00:00.000Z │   40    │ 'female' │ 'Paper_Title_23' │
+│    6    │     3     │ 'AUTHOR_3'  │   1    │ 'UNIVERSITY_5' │ 1970-01-02T23:00:00.000Z │   35    │  'male'  │ 'Paper_Title_22' │
+│    7    │     3     │ 'AUTHOR_3'  │   1    │ 'UNIVERSITY_5' │ 1970-01-02T23:00:00.000Z │   35    │  'male'  │ 'Paper_Title_19' │
+│    8    │     4     │ 'AUTHOR_4'  │   2    │ 'UNIVERSITY_4' │ 1970-01-03T23:00:00.000Z │   55    │  'male'  │ 'Paper_Title_9'  │
+│    9    │     5     │ 'AUTHOR_5'  │   3    │ 'UNIVERSITY_5' │ 1970-01-04T23:00:00.000Z │   50    │ 'female' │ 'Paper_Title_10' │
+│   10    │     5     │ 'AUTHOR_5'  │   3    │ 'UNIVERSITY_5' │ 1970-01-04T23:00:00.000Z │   50    │ 'female' │ 'Paper_Title_16' │
+│   11    │     6     │ 'AUTHOR_6'  │   1    │ 'UNIVERSITY_2' │ 1970-01-05T23:00:00.000Z │   45    │  'male'  │ 'Paper_Title_7'  │
+│   12    │     6     │ 'AUTHOR_6'  │   1    │ 'UNIVERSITY_2' │ 1970-01-05T23:00:00.000Z │   45    │  'male'  │ 'Paper_Title_21' │
+│   13    │     6     │ 'AUTHOR_6'  │   1    │ 'UNIVERSITY_2' │ 1970-01-05T23:00:00.000Z │   45    │  'male'  │ 'Paper_Title_1'  │
+│   14    │     6     │ 'AUTHOR_6'  │   1    │ 'UNIVERSITY_2' │ 1970-01-05T23:00:00.000Z │   45    │  'male'  │ 'Paper_Title_4'  │
+│   15    │     6     │ 'AUTHOR_6'  │   1    │ 'UNIVERSITY_2' │ 1970-01-05T23:00:00.000Z │   45    │  'male'  │ 'Paper_Title_20' │
+│   16    │     7     │ 'AUTHOR_7'  │   4    │ 'UNIVERSITY_1' │ 1970-01-06T23:00:00.000Z │   42    │ 'female' │ 'Paper_Title_25' │
+│   17    │     7     │ 'AUTHOR_7'  │   4    │ 'UNIVERSITY_1' │ 1970-01-06T23:00:00.000Z │   42    │ 'female' │ 'Paper_Title_8'  │
+│   18    │     7     │ 'AUTHOR_7'  │   4    │ 'UNIVERSITY_1' │ 1970-01-06T23:00:00.000Z │   42    │ 'female' │ 'Paper_Title_9'  │
+│   19    │     7     │ 'AUTHOR_7'  │   4    │ 'UNIVERSITY_1' │ 1970-01-06T23:00:00.000Z │   42    │ 'female' │ 'Paper_Title_15' │
+│   20    │     8     │ 'AUTHOR_8'  │   4    │ 'UNIVERSITY_3' │ 1970-01-07T23:00:00.000Z │   52    │ 'female' │ 'Paper_Title_6'  │
+│   21    │     8     │ 'AUTHOR_8'  │   4    │ 'UNIVERSITY_3' │ 1970-01-07T23:00:00.000Z │   52    │ 'female' │ 'Paper_Title_17' │
+│   22    │     8     │ 'AUTHOR_8'  │   4    │ 'UNIVERSITY_3' │ 1970-01-07T23:00:00.000Z │   52    │ 'female' │ 'Paper_Title_29' │
+│   23    │     8     │ 'AUTHOR_8'  │   4    │ 'UNIVERSITY_3' │ 1970-01-07T23:00:00.000Z │   52    │ 'female' │ 'Paper_Title_13' │
+│   24    │     8     │ 'AUTHOR_8'  │   4    │ 'UNIVERSITY_3' │ 1970-01-07T23:00:00.000Z │   52    │ 'female' │ 'Paper_Title_24' │
+│   25    │     8     │ 'AUTHOR_8'  │   4    │ 'UNIVERSITY_3' │ 1970-01-07T23:00:00.000Z │   52    │ 'female' │ 'Paper_Title_27' │
+│   26    │     9     │ 'AUTHOR_9'  │   2    │ 'UNIVERSITY_5' │ 1970-01-08T23:00:00.000Z │   54    │  'male'  │ 'Paper_Title_4'  │
+│   27    │     9     │ 'AUTHOR_9'  │   2    │ 'UNIVERSITY_5' │ 1970-01-08T23:00:00.000Z │   54    │  'male'  │ 'Paper_Title_15' │
+│   28    │     9     │ 'AUTHOR_9'  │   2    │ 'UNIVERSITY_5' │ 1970-01-08T23:00:00.000Z │   54    │  'male'  │ 'Paper_Title_17' │
+│   29    │     9     │ 'AUTHOR_9'  │   2    │ 'UNIVERSITY_5' │ 1970-01-08T23:00:00.000Z │   54    │  'male'  │ 'Paper_Title_28' │
+│   30    │    10     │ 'AUTHOR_10' │   3    │ 'UNIVERSITY_3' │ 1970-01-09T23:00:00.000Z │   48    │  'male'  │ 'Paper_Title_3'  │
+│   31    │    10     │ 'AUTHOR_10' │   3    │ 'UNIVERSITY_3' │ 1970-01-09T23:00:00.000Z │   48    │  'male'  │ 'Paper_Title_8'  │
+│   32    │    10     │ 'AUTHOR_10' │   3    │ 'UNIVERSITY_3' │ 1970-01-09T23:00:00.000Z │   48    │  'male'  │ 'Paper_Title_6'  │
+│   33    │    10     │ 'AUTHOR_10' │   3    │ 'UNIVERSITY_3' │ 1970-01-09T23:00:00.000Z │   48    │  'male'  │ 'Paper_Title_26' │
+│   34    │    11     │ 'AUTHOR_11' │   4    │ 'UNIVERSITY_2' │ 1970-01-10T23:00:00.000Z │   28    │ 'female' │ 'Paper_Title_30' │
+│   35    │    11     │ 'AUTHOR_11' │   4    │ 'UNIVERSITY_2' │ 1970-01-10T23:00:00.000Z │   28    │ 'female' │ 'Paper_Title_3'  │
+│   36    │    11     │ 'AUTHOR_11' │   4    │ 'UNIVERSITY_2' │ 1970-01-10T23:00:00.000Z │   28    │ 'female' │ 'Paper_Title_5'  │
+│   37    │    11     │ 'AUTHOR_11' │   4    │ 'UNIVERSITY_2' │ 1970-01-10T23:00:00.000Z │   28    │ 'female' │ 'Paper_Title_21' │
+│   38    │    12     │ 'AUTHOR_12' │   1    │ 'UNIVERSITY_1' │ 1970-01-11T23:00:00.000Z │   32    │ 'female' │ 'Paper_Title_12' │
+│   39    │    12     │ 'AUTHOR_12' │   1    │ 'UNIVERSITY_1' │ 1970-01-11T23:00:00.000Z │   32    │ 'female' │ 'Paper_Title_26' │
+│   40    │    12     │ 'AUTHOR_12' │   1    │ 'UNIVERSITY_1' │ 1970-01-11T23:00:00.000Z │   32    │ 'female' │ 'Paper_Title_2'  │
+│   41    │    12     │ 'AUTHOR_12' │   1    │ 'UNIVERSITY_1' │ 1970-01-11T23:00:00.000Z │   32    │ 'female' │ 'Paper_Title_11' │
+│   42    │    13     │ 'AUTHOR_13' │   5    │ 'UNIVERSITY_4' │ 1970-01-12T23:00:00.000Z │   35    │  'male'  │       null       │
+│   43    │    14     │ 'AUTHOR_14' │   5    │ 'UNIVERSITY_1' │ 1970-01-13T23:00:00.000Z │   24    │ 'female' │ 'Paper_Title_5'  │
+│   44    │    14     │ 'AUTHOR_14' │   5    │ 'UNIVERSITY_1' │ 1970-01-13T23:00:00.000Z │   24    │ 'female' │ 'Paper_Title_13' │
+│   45    │    14     │ 'AUTHOR_14' │   5    │ 'UNIVERSITY_1' │ 1970-01-13T23:00:00.000Z │   24    │ 'female' │ 'Paper_Title_20' │
+│   46    │    15     │ 'AUTHOR_15' │   5    │ 'UNIVERSITY_4' │ 1970-01-14T23:00:00.000Z │   36    │  'male'  │ 'Paper_Title_1'  │
+│   47    │    15     │ 'AUTHOR_15' │   5    │ 'UNIVERSITY_4' │ 1970-01-14T23:00:00.000Z │   36    │  'male'  │ 'Paper_Title_23' │
+│   48    │    15     │ 'AUTHOR_15' │   5    │ 'UNIVERSITY_4' │ 1970-01-14T23:00:00.000Z │   36    │  'male'  │ 'Paper_Title_27' │
+│   49    │    15     │ 'AUTHOR_15' │   5    │ 'UNIVERSITY_4' │ 1970-01-14T23:00:00.000Z │   36    │  'male'  │ 'Paper_Title_16' │
+└─────────┴───────────┴─────────────┴────────┴────────────────┴──────────────────────────┴─────────┴──────────┴──────────────────┘
+
+
+Exercise 4 Output:
+1-Write a query that prints names of all authors and their corresponding mentors :
+SELECT
+  research_papers.paper_id,
+  research_papers.paper_title,
+  COUNT(authors.author_no) AS "Number Of Author Contributed To Paper"
+FROM junction_authors_research_papers
+  INNER JOIN authors
+    ON junction_authors_research_papers.author_no = authors.author_no
+  INNER JOIN research_papers
+    ON junction_authors_research_papers.paper_id = research_papers.paper_id
+    GROUP BY research_papers.paper_id;
+┌─────────┬──────────┬──────────────────┬───────────────────────────────────────┐
+│ (index) │ paper_id │   paper_title    │ Number Of Author Contributed To Paper │
+├─────────┼──────────┼──────────────────┼───────────────────────────────────────┤
+│    0    │    1     │ 'Paper_Title_1'  │                   2                   │
+│    1    │    2     │ 'Paper_Title_2'  │                   2                   │
+│    2    │    3     │ 'Paper_Title_3'  │                   2                   │
+│    3    │    4     │ 'Paper_Title_4'  │                   2                   │
+│    4    │    5     │ 'Paper_Title_5'  │                   2                   │
+│    5    │    6     │ 'Paper_Title_6'  │                   2                   │
+│    6    │    7     │ 'Paper_Title_7'  │                   1                   │
+│    7    │    8     │ 'Paper_Title_8'  │                   2                   │
+│    8    │    9     │ 'Paper_Title_9'  │                   2                   │
+│    9    │    10    │ 'Paper_Title_10' │                   1                   │
+│   10    │    11    │ 'Paper_Title_11' │                   1                   │
+│   11    │    12    │ 'Paper_Title_12' │                   1                   │
+│   12    │    13    │ 'Paper_Title_13' │                   2                   │
+│   13    │    14    │ 'Paper_Title_14' │                   1                   │
+│   14    │    15    │ 'Paper_Title_15' │                   2                   │
+│   15    │    16    │ 'Paper_Title_16' │                   2                   │
+│   16    │    17    │ 'Paper_Title_17' │                   2                   │
+│   17    │    18    │ 'Paper_Title_18' │                   1                   │
+│   18    │    19    │ 'Paper_Title_19' │                   2                   │
+│   19    │    20    │ 'Paper_Title_20' │                   2                   │
+│   20    │    21    │ 'Paper_Title_21' │                   2                   │
+│   21    │    22    │ 'Paper_Title_22' │                   1                   │
+│   22    │    23    │ 'Paper_Title_23' │                   2                   │
+│   23    │    24    │ 'Paper_Title_24' │                   2                   │
+│   24    │    25    │ 'Paper_Title_25' │                   1                   │
+│   25    │    26    │ 'Paper_Title_26' │                   2                   │
+│   26    │    27    │ 'Paper_Title_27' │                   2                   │
+│   27    │    28    │ 'Paper_Title_28' │                   1                   │
+│   28    │    29    │ 'Paper_Title_29' │                   1                   │
+│   29    │    30    │ 'Paper_Title_30' │                   1                   │
+└─────────┴──────────┴──────────────────┴───────────────────────────────────────┘
+2-Sum of the research papers published by all female authors :
+SELECT
+    count(research_papers.paper_id) AS "Number Of Paper Written By Female Author"
+  FROM junction_authors_research_papers
+    INNER JOIN authors
+      ON junction_authors_research_papers.author_no = authors.author_no
+    INNER JOIN research_papers
+      ON junction_authors_research_papers.paper_id = research_papers.paper_id
+      WHERE gender="female";
+┌─────────┬──────────────────────────────────────────┐
+│ (index) │ Number Of Paper Written By Female Author │
+├─────────┼──────────────────────────────────────────┤
+│    0    │                    27                    │
+└─────────┴──────────────────────────────────────────┘
+3-Average of the h-index of all authors per university :
+SELECT
+    authors.university,
+     ROUND(AVG(authors.h_index),0)
+   FROM authors
+   GROUP BY authors.university
+   ORDER BY university;
+┌─────────┬────────────────┬───────────────────────────────┐
+│ (index) │   university   │ ROUND(AVG(authors.h_index),0) │
+├─────────┼────────────────┼───────────────────────────────┤
+│    0    │ 'UNIVERSITY_1' │              31               │
+│    1    │ 'UNIVERSITY_2' │              38               │
+│    2    │ 'UNIVERSITY_3' │              50               │
+│    3    │ 'UNIVERSITY_4' │              42               │
+│    4    │ 'UNIVERSITY_5' │              46               │
+└─────────┴────────────────┴───────────────────────────────┘
+4-Sum of the research papers of the authors per university :
+SELECT
+    authors.university,
+    COUNT(research_papers.paper_id) AS "Number Of Paper"
+  FROM junction_authors_research_papers
+    INNER JOIN authors
+      ON junction_authors_research_papers.author_no = authors.author_no
+    INNER JOIN research_papers
+      ON junction_authors_research_papers.paper_id = research_papers.paper_id
+      GROUP BY university
+      ORDER BY university;
+┌─────────┬────────────────┬─────────────────┐
+│ (index) │   university   │ Number Of Paper │
+├─────────┼────────────────┼─────────────────┤
+│    0    │ 'UNIVERSITY_1' │       13        │
+│    1    │ 'UNIVERSITY_2' │       13        │
+│    2    │ 'UNIVERSITY_3' │       10        │
+│    3    │ 'UNIVERSITY_4' │        5        │
+│    4    │ 'UNIVERSITY_5' │        8        │
+└─────────┴────────────────┴─────────────────┘
+5-Minimum and maximum of the h-index of all authors per university :
+SELECT
+    authors.university,
+    MIN(h_index) ,
+    MAX(h_index)
+  FROM junction_authors_research_papers
+    INNER JOIN authors
+      ON junction_authors_research_papers.author_no = authors.author_no
+    INNER JOIN research_papers
+      ON junction_authors_research_papers.paper_id = research_papers.paper_id
+  GROUP BY authors.university
+  ORDER BY university;
+┌─────────┬────────────────┬──────────────┬──────────────┐
+│ (index) │   university   │ MIN(h_index) │ MAX(h_index) │
+├─────────┼────────────────┼──────────────┼──────────────┤
+│    0    │ 'UNIVERSITY_1' │      24      │      42      │
+│    1    │ 'UNIVERSITY_2' │      28      │      45      │
+│    2    │ 'UNIVERSITY_3' │      48      │      52      │
+│    3    │ 'UNIVERSITY_4' │      36      │      55      │
+│    4    │ 'UNIVERSITY_5' │      35      │      54      │
+└─────────┴────────────────┴──────────────┴──────────────┘

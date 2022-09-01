@@ -25,7 +25,7 @@ runQueries = [
   // 8-What's the top 10 countries by Surface Area?
   (query8 = `SELECT Name , SurfaceArea FROM world.country order by SurfaceArea desc limit 10;`),
   // 9-What's the top 10 most populated cities?
-  (query9 = `SELECT Name , Population FROM world.city order by Population Limit 10;`),
+  (query9 = `SELECT Name , Population FROM world.city order by Population DESC Limit 10;`),
   // 10-What is the population number of the world?
   (query10 = `SELECT sum(Population) as World_Population FROM world.country;`),
 ];

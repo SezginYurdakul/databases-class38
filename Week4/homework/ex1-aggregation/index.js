@@ -4,7 +4,7 @@ const dotenv = require("dotenv");
 dotenv.config();
 const database = "DatabaseWeek4";
 const dbCollection = "Population";
-const uri=process.env.URI;
+const uri = process.env.URI;
 //const uri = "mongodb+srv://sezgin:sezgin@cluster0.nhg546x.mongodb.net/?retryWrites=true&w=majority";
 
 const client = new MongoClient(uri);
@@ -16,8 +16,7 @@ async function main() {
         //await createCollection(client);
         //await importData(client);
         await calculateTotalPopulationOverYear(client, 'Turkey');
-        const agegroup='70-74';
-        await calculateTotalPopulationForContinenet(client, 1950, agegroup)
+        await calculateTotalPopulationForContinenet(client, "1950", "20-24")
 
     } catch (error) {
         console.log(error.message);
@@ -95,12 +94,7 @@ const calculateTotalPopulationForContinenet = async (client, year, age) => {
         }, {
             '$addFields': {
                 'TotalPopulation': {
-                    '$sum': [
-                        {
-                            '$toInt': '$M'
-                        }, {
-                            '$toInt': '$F'
-                        }
+                    '$add': [{ '$toInt': '$M' }, { '$toInt': '$F' }
                     ]
                 }
             }
@@ -108,6 +102,6 @@ const calculateTotalPopulationForContinenet = async (client, year, age) => {
     ]
     const cursor = await client.db(database).collection(dbCollection).aggregate(pipeline);
     const results = await cursor.toArray();
-    console.log(`${year}'s Population for Age group ${age} over years ___________`)
+    console.log(`${year}'s Population for Age group ${age} over years ___________`);
     results.forEach((result) => console.log(result));
 };
